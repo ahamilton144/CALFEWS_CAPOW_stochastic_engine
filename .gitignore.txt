@@ -19,3 +19,6 @@
 *README.html
 *README_cache/
 #*README_files/
+# Prevent python from committing __pycache__ info
+__pycache__
+*/__pycache__

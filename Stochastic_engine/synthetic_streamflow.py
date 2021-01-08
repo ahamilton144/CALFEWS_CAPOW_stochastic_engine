@@ -25,11 +25,11 @@ import matplotlib.pyplot as plt
 #########################################################################
 
 # Import historical tmeperature data
-df_temp = pd.read_excel('Synthetic_streamflows/hist_temps_1953_2007.xlsx')
+df_temp = pd.read_excel('Synthetic_streamflows/input/hist_temps_1953_2007.xlsx')
 his_temp_matrix = df_temp.values 
 
 # Import calender 
-calender=pd.read_excel('Synthetic_streamflows/BPA_hist_streamflow.xlsx',sheet_name='Calender',header= None)
+calender=pd.read_excel('Synthetic_streamflows/input/BPA_hist_streamflow.xlsx',sheet_name='Calender',header= None)
 calender=calender.values
 julian=calender[:,2]
 
@@ -37,7 +37,7 @@ julian=calender[:,2]
 # Synthetic HDD CDD calculation
 
 # Simulation data
-sim_weather=pd.read_csv('Synthetic_weather/synthetic_weather_data.csv',header=0)
+sim_weather=pd.read_csv('Synthetic_weather/output/synthetic_weather_data.csv',header=0)
 
 
 
@@ -101,10 +101,10 @@ for i in range(0,int(len(HDD)/365)):
 #This section is used for calculating total hydro 
         
 # Load relevant streamflow data (1953-2007)
-BPA_streamflow=pd.read_excel('Synthetic_streamflows/BPA_hist_streamflow.xlsx',sheet_name='Inflows',header=0)
-Hoover_streamflow=pd.read_csv('Synthetic_streamflows/Hoover_hist_streamflow.csv',header=0)
-CA_streamflow=pd.read_excel('Synthetic_streamflows/CA_hist_streamflow.xlsx',header=0)
-Willamette_streamflow=pd.read_csv('Synthetic_streamflows/Willamette_hist_streamflow.csv',header=0)
+BPA_streamflow=pd.read_excel('Synthetic_streamflows/input/BPA_hist_streamflow.xlsx',sheet_name='Inflows',header=0)
+Hoover_streamflow=pd.read_csv('Synthetic_streamflows/input/Hoover_hist_streamflow.csv',header=0)
+CA_streamflow=pd.read_excel('Synthetic_streamflows/input/CA_hist_streamflow.xlsx',header=0)
+Willamette_streamflow=pd.read_csv('Synthetic_streamflows/input/Willamette_hist_streamflow.csv',header=0)
 
 # headings
 name_Will=list(Willamette_streamflow.loc[:,'Albany':])
@@ -343,7 +343,7 @@ df_sim_totals.columns = H
 Fraction_calculation_cities=['Spokane','Boise','Sacramento','Fresno']
 
 # Each is weighted by average annual flow at nearby gage sites
-Temperature_weights=pd.read_excel('Synthetic_streamflows/city_weights.xlsx',header=0)
+Temperature_weights=pd.read_excel('Synthetic_streamflows/input/city_weights.xlsx',header=0)
 
 # historical temperatures for those 4 cities
 fraction_hist_temp=df_temp[Fraction_calculation_cities]
@@ -488,13 +488,13 @@ TDA[:,1]=output_BPA[:,47]
 
 ###############################################################################
 # Output
-np.savetxt('Synthetic_streamflows/synthetic_streamflows_FCRPS.csv',output_BPA,delimiter=',')
-np.savetxt('Synthetic_streamflows/synthetic_streamflows_TDA.csv',TDA[:,1],delimiter=',')
-np.savetxt('Synthetic_streamflows/synthetic_discharge_Hoover.csv',output_Hoover,delimiter=',')
+np.savetxt('Synthetic_streamflows/output/synthetic_streamflows_FCRPS.csv',output_BPA,delimiter=',')
+np.savetxt('Synthetic_streamflows/output/synthetic_streamflows_TDA.csv',TDA[:,1],delimiter=',')
+np.savetxt('Synthetic_streamflows/output/synthetic_discharge_Hoover.csv',output_Hoover,delimiter=',')
 CA=pd.DataFrame(output_CA,columns=name_CA)
-CA.to_csv('Synthetic_streamflows/synthetic_streamflows_CA.csv')
+CA.to_csv('Synthetic_streamflows/output/synthetic_streamflows_CA.csv')
 Willamatte_Syn=pd.DataFrame(output_WI,columns=name_Will)
-Willamatte_Syn.to_csv('Synthetic_streamflows/synthetic_streamflows_Willamette.csv')
+Willamatte_Syn.to_csv('Synthetic_streamflows/output/synthetic_streamflows_Willamette.csv')
 
 #write CA synthetic flows to ORCA file
 leap_cycles = int(sim_years//4)
@@ -512,7 +512,7 @@ for i in range(0,leap_cycles):
         F = np.vstack((F,B,D))
         
 df_leap = pd.DataFrame(F,columns=name_CA)
-df_leap.to_csv('cord/data/input/forecast_flows.csv')
+df_leap.to_csv('Synthetic_streamflows/output/ORCA_forecast_flows.csv')
 
         
         

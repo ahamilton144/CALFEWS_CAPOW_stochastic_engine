@@ -4,4 +4,4 @@
 *.pyc
 .idea
 *.bak
-cord/__pycache__/*
+__pycache__/*

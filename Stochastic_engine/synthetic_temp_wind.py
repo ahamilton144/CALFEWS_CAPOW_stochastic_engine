@@ -33,10 +33,10 @@ def synthetic(sim_years):
     sim_years2= 2* sim_years
     # read historical time series of daily wind and temperature residuals and 
     # covariance matrix
-    Residuals=pd.read_csv('Historical_weather_analysis/WIND_TEMP_res.csv')
-    Covariance=pd.read_csv('Historical_weather_analysis/Covariance_Calculation.csv')
+    Residuals=pd.read_csv('Historical_weather_analysis/output/WIND_TEMP_res.csv')
+    Covariance=pd.read_csv('Historical_weather_analysis/output/Covariance_Calculation.csv')
     
-    Solar_Residuals=pd.read_csv('Historical_weather_analysis/res_irr.csv')
+    Solar_Residuals=pd.read_csv('Historical_weather_analysis/input/res_irr.csv')
     Solar_R=Solar_Residuals.loc[:,'Site1':]
     # pull residual data and convert to numerical form
     R = Residuals.loc[:,'SALEM_T':].values
@@ -66,27 +66,27 @@ def synthetic(sim_years):
     C=np.cov(np.transpose(R))
     
     # average temperature and wind speed profiles
-    Ave=pd.read_csv('Historical_weather_analysis/WIND_TEMP_ave.csv',header =0)
+    Ave=pd.read_csv('Historical_weather_analysis/output/WIND_TEMP_ave.csv',header =0)
     Ave_TW = Ave.loc[0:364,'SALEM_T':].values
     
     # records of standard deviation for each calender day
-    Std=pd.read_csv('Historical_weather_analysis/WIND_TEMP_std.csv',header =0)
+    Std=pd.read_csv('Historical_weather_analysis/output/WIND_TEMP_std.csv',header =0)
     Std_TW = Std.loc[0:364,'SALEM_T':].values
     
     #T_res=pd.read_csv('Temp_res.csv')
-    T_ave=pd.read_csv('Historical_weather_analysis/Temp_ave.csv',header=0)
+    T_ave=pd.read_csv('Historical_weather_analysis/input/Temp_ave.csv',header=0)
     Ave_T = T_ave.loc[0:364,'SALEM_T':].values
-    T_std=pd.read_csv('Historical_weather_analysis/Temp_Std.csv',header=0)
+    T_std=pd.read_csv('Historical_weather_analysis/input/Temp_Std.csv',header=0)
     Std_T = T_std.loc[0:364,'SALEM_T':].values
-    T_res=pd.read_csv('Historical_weather_analysis/Temp_res.csv')
+    T_res=pd.read_csv('Historical_weather_analysis/input/Temp_res.csv')
     
-    Solar_ave=pd.read_csv('Historical_weather_analysis/ave_irr.csv')
+    Solar_ave=pd.read_csv('Historical_weather_analysis/input/ave_irr.csv')
     S_ave=Solar_ave.loc[:,'Site1':].values
-    Solar_std=pd.read_csv('Historical_weather_analysis/std_irr.csv')
+    Solar_std=pd.read_csv('Historical_weather_analysis/input/std_irr.csv')
     S_std=Solar_std.loc[:,'Site1':].values
     
     
-    Clear_sky=pd.read_csv('Historical_weather_analysis/clear_sky.csv',header=0,index_col=0)
+    Clear_sky=pd.read_csv('Historical_weather_analysis/input/clear_sky.csv',header=0,index_col=0)
     Clear_sky=Clear_sky.values
     # number of simulation days
     
@@ -291,15 +291,15 @@ def synthetic(sim_years):
     headers2 = H2[1:]        
     #    df_sim = pd.DataFrame(sim_weather)
     #    df_sim.columns = headers    
-    #    df_sim.to_csv('Synthetic_weather/synthetic_weather_data_1.csv')
+    #    df_sim.to_csv('Synthetic_weather/output/synthetic_weather_data_1.csv')
     
     df_sim2 = pd.DataFrame(sim_weather3)
     df_sim2.columns = headers    
-    df_sim2.to_csv('Synthetic_weather/synthetic_weather_data.csv')
+    df_sim2.to_csv('Synthetic_weather/output/synthetic_weather_data.csv')
     
     df_sim_irr=pd.DataFrame(sim_irr2)
     df_sim_irr.columns=headers2
-    df_sim_irr.to_csv('Synthetic_weather/synthetic_irradiance_data.csv')
+    df_sim_irr.to_csv('Synthetic_weather/output/synthetic_irradiance_data.csv')
     
 
     return None

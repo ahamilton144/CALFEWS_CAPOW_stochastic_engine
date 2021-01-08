@@ -26,10 +26,10 @@ import math
 
 #read in historical meteorological data from NCDC GHN stations. data
 # are average daily wind speeds (m/s), minimum/maximum daily temperatures (degrees C)
-met_data=pd.read_csv('Historical_weather_analysis/Wind_Temps_1970_2017.csv',header =0, na_values=['#VALUE!', '#DIV/0!'])
+met_data=pd.read_csv('Historical_weather_analysis/input/Wind_Temps_1970_2017.csv',header =0, na_values=['#VALUE!', '#DIV/0!'])
 
 #read in table of NCDC GHN station information
-Station_name= pd.read_excel('Historical_weather_analysis/station_names.xlsx', header = 0)
+Station_name= pd.read_excel('Historical_weather_analysis/input/station_names.xlsx', header = 0)
 Station_ID = list(Station_name.loc[:,'ID'])
 Place= list(Station_name.loc[:,'Place'])
 Dictionary=dict(zip(Station_ID,Place))
@@ -50,7 +50,7 @@ for i in Station_ID:
 # from calculated average values
 for i in Station_ID:
     
-    print i 
+    print(i)
     
     # store data for each station in a temporary variable
     exec('Temp= ID_%s_Station_data' %(i))
@@ -113,7 +113,7 @@ for i in Station_ID:
 # for each station
 for i in Station_ID:
     
-    print i + ' 2'
+    i + ' 2'
     
     exec('Temp= ID_%s_Station_data' %(i))
     
@@ -198,7 +198,7 @@ for i in Station_ID:
 #Create a dataframe to store result
 Covariance_Calculation=pd.DataFrame(index=index_list, columns=index_list)
 
-Start= datetime(2000,01,01)
+Start= datetime(2000,1,1)
 End = datetime(2018,1,1)
 n = 6941 # number of days in continuous record
 t = Start
@@ -206,7 +206,7 @@ t = Start
 # for each station
 for i in Station_ID:
     
-    print i + ' 3'
+    print(i + ' 3')
     
     # Store results in temporary variable
     exec('Temp_1= Result_%s_pd' %(i))
@@ -259,7 +259,7 @@ for i in Station_ID:
         exec("Covariance_Calculation.loc['%s_W','%s_W']=co_5" %(Dictionary[i],Dictionary[j]))
         exec("Covariance_Calculation.loc['%s_T','%s_W']=co_6" %(Dictionary[j],Dictionary[j]))   
 
-Covariance_Calculation.to_csv('Historical_Weather_Analysis/Covariance_Calculation.csv')
+Covariance_Calculation.to_csv('Historical_weather_analysis/output/Covariance_Calculation.csv')
 
 ##################################################################################
 ##This section is used for data orgnization
@@ -282,7 +282,7 @@ W_T_Std=pd.DataFrame(index=Date_index, columns=index_list)
 
 for i in Station_ID:
     
-    print i + ' 4'
+    print(i + ' 4')
     
     exec('Temp= ID_%s_Station_data' %(i))
 
@@ -321,10 +321,10 @@ for i in Station_ID:
     
 #Output temp and wind time series data here
 W_T.rename({0:'Date'}, axis='columns')      
-W_T.to_csv('Historical_weather_analysis/WIND_TEMP.csv')   
+W_T.to_csv('Historical_weather_analysis/output/WIND_TEMP.csv')   
 W_T_res.rename({0:'Date'}, axis='columns') 
-W_T_res.to_csv('Historical_weather_analysis/WIND_TEMP_res.csv') 
+W_T_res.to_csv('Historical_weather_analysis/output/WIND_TEMP_res.csv') 
 W_T_ave.rename({0:'Date'}, axis='columns')  
-W_T_ave.to_csv('Historical_weather_analysis/WIND_TEMP_ave.csv') 
+W_T_ave.to_csv('Historical_weather_analysis/output/WIND_TEMP_ave.csv') 
 W_T_Std.rename({0:'Date'}, axis='columns')  
-W_T_Std.to_csv('Historical_weather_analysis/WIND_TEMP_Std.csv') 
+W_T_Std.to_csv('Historical_weather_analysis/output/WIND_TEMP_Std.csv') 
