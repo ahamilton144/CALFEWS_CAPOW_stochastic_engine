@@ -13,7 +13,7 @@ import numpy as np
 import random
 from copy import deepcopy
 
-def synthetic(sim_years):
+def synthetic(sim_years, output_suffix):
     
     #########################################################################
     # This purpose of this script is to use daily temperature and wind profiles, and 
@@ -295,11 +295,11 @@ def synthetic(sim_years):
     
     df_sim2 = pd.DataFrame(sim_weather3)
     df_sim2.columns = headers    
-    df_sim2.to_csv('Synthetic_weather/output/synthetic_weather_data.csv')
+    df_sim2.to_csv('Synthetic_weather/output/synthetic_weather_data' + output_suffix + '.csv')
     
     df_sim_irr=pd.DataFrame(sim_irr2)
     df_sim_irr.columns=headers2
-    df_sim_irr.to_csv('Synthetic_weather/output/synthetic_irradiance_data.csv')
+    df_sim_irr.to_csv('Synthetic_weather/output/synthetic_irradiance_data' + output_suffix + '.csv')
     
 
     return None

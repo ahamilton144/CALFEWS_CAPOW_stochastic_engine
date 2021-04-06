@@ -6,6 +6,7 @@ Created on Wed Sep 19 09:59:48 2018
 """
 from __future__ import division
 import time
+import sys
 starttime = time.time()
 
 ############################################################################
@@ -28,15 +29,18 @@ starttime = time.time()
 # dates of the forecast_exp scenario flow files. Start date must be 1/1/1901.
 # End dates must be 12/31/1901 + stoch_years + 3 after start date. 
 
-stoch_years=20
+stoch_years = int(sys.argv[1])
+output_suffix = sys.argv[2]
+
 print('Starting stochastic engine, ', stoch_years, ' years')
 
 # Generate synthetic weather (wind speed and temperature) records. 
 import synthetic_temp_wind
-synthetic_temp_wind.synthetic(stoch_years)
+synthetic_temp_wind.synthetic(stoch_years - 2, output_suffix)
 print('synth weather finished, ', time.time() - starttime)
 
 # Generate synthetic streamflow records 
 import synthetic_streamflow
+synthetic_streamflow.run(output_suffix)
 print('streamflows finished, ', time.time() - starttime)
 
