@@ -30,17 +30,44 @@ starttime = time.time()
 # End dates must be 12/31/1901 + stoch_years + 3 after start date. 
 
 stoch_years = int(sys.argv[1])
-output_suffix = sys.argv[2]
+nsamples = int(sys.argv[2])
+parallel_mode = int(sys.argv[3])
 
-print('Starting stochastic engine, ', stoch_years, ' years')
+if parallel_mode == 1:
+  from mpi4py import MPI
+  import math
+  import time
+  # Parallel simulation
+  comm = MPI.COMM_WORLD
+  # Number of processors and the rank of processors
+  rank = comm.Get_rank()
+  nprocs = comm.Get_size()
+  # Determine the chunk which each processor will neeed to do
+  count = int(math.floor(nsamples/nprocs))
+  remainder = nsamples % nprocs
+  # Use the processor rank to determine the chunk of work each processor will do
+  if rank < remainder:
+    start = rank*(count+1)
+    stop = start + count + 1 
+  else:
+    start = remainder*(count+1) + (rank-remainder)*count 
+    stop = start + count 
+  print(nprocs, rank, count, remainder, start, stop)
+else:
+  start = 0
+  stop = nsamples
 
-# Generate synthetic weather (wind speed and temperature) records. 
-import synthetic_temp_wind
-synthetic_temp_wind.synthetic(stoch_years - 2, output_suffix)
-print('synth weather finished, ', time.time() - starttime)
+for s in range(start, stop):
+  s = str(s)
+  print('Starting stochastic engine, sample ', s, ', ', stoch_years, ' years')
 
-# Generate synthetic streamflow records 
-import synthetic_streamflow
-synthetic_streamflow.run(output_suffix)
-print('streamflows finished, ', time.time() - starttime)
+  # Generate synthetic weather (wind speed and temperature) records. 
+  import synthetic_temp_wind
+  synthetic_temp_wind.synthetic(stoch_years - 2, s)
+  print('synth weather finished, ', time.time() - starttime)
+
+  # Generate synthetic streamflow records 
+  import synthetic_streamflow
+  synthetic_streamflow.run(s)
+  print('streamflows finished, ', time.time() - starttime)
 

@@ -5,3 +5,7 @@
 .idea
 *.bak
 __pycache__/*
+*/output/*
+.venv*
+out.txt
+gmon.out
