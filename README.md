@@ -9,3 +9,5 @@ The stochastic generator can be run either in serial mode (using a single proces
 - To run in serial mode and create 5 stochastic time series, each 20 water years long, run the command ``python stochastic_engine.py 20 5 0``. 
 - To run in parallel mode using 2 processors on a laptop, run the command ``mpirun -n 2 python stochastic_engine.py 20 5 1``. 
 - Lastly, for an example of how to run a large experiment on a cluster using the SLURM scheduler, see ``slurm_batch_synthetic.sh``.
+
+Synthetic irradiance and weather will be stored at ``Stochastic_engine/Synthetic_weather/output``, and synthetic streamflows will be stored at ``Stochastic_engine/Synthetic_streamflows/output``.
